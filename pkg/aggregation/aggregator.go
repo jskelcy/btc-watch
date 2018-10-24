@@ -85,7 +85,7 @@ func (a *aggregator) Ingest(value float64) {
 
 	a.lastMinMovingAverage = a.total / float64(len(*a.dps))
 	a.primed = true
-	a.log.Printf("average: %v", a.lastMinMovingAverage)
+	a.log.Printf("average: %.2f", a.lastMinMovingAverage)
 }
 
 type dataPoint struct {

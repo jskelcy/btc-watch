@@ -1,11 +1,11 @@
 package ticker
 
 import (
+	"fmt"
 	"net/http"
-	"strconv"
 
-	"github.com/jskelcy/btc-cli/pkg/aggregation"
-	"github.com/jskelcy/btc-cli/pkg/fetch"
+	"github.com/jskelcy/btc-watch/pkg/aggregation"
+	"github.com/jskelcy/btc-watch/pkg/fetch"
 )
 
 // Ticker implments functions compatible with http.HandleFunc.
@@ -59,5 +59,5 @@ func (t *ticker) Price(resp http.ResponseWriter, req *http.Request) {
 	}
 
 	resp.WriteHeader(http.StatusOK)
-	resp.Write([]byte(strconv.FormatFloat(currAggPrice, 'g', -1, 64)))
+	resp.Write([]byte(fmt.Sprintf("%.2f", currAggPrice)))
 }

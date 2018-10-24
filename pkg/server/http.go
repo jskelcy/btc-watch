@@ -1,17 +1,29 @@
 package server
 
 import (
+	"fmt"
 	"net/http"
 
-	"github.com/jskelcy/btc-cli/pkg/ticker"
+	"github.com/jskelcy/btc-watch/pkg/ticker"
 )
 
-func NewServer(priceTicker ticker.Ticker) *http.Server {
+const (
+	portFmt = ":%s"
+)
+
+// Config contians configuration for an HTTP server.
+type Config struct {
+	PriceTicker ticker.Ticker
+	Port        string
+}
+
+// NewServer returns a new HTTP server from config.
+func NewServer(cfg Config) *http.Server {
 	mux := http.NewServeMux()
-	mux.HandleFunc("/price", handleMethod(http.MethodGet, priceTicker.Price))
+	mux.HandleFunc("/price", handleMethod(http.MethodGet, cfg.PriceTicker.Price))
 
 	return &http.Server{
-		Addr:    ":8080",
+		Addr:    fmt.Sprintf(portFmt, cfg.Port),
 		Handler: mux,
 	}
 }

@@ -2,7 +2,7 @@
     GOCMD=go
 		CMDDIR=./cmd
     OUTDIR=./out
-    BINARY_NAME=btc-cli
+    BINARY_NAME=btc-watch
     GOBUILD=$(GOCMD) build
     GOCLEAN=$(GOCMD) clean
     GOTEST=$(GOCMD) test
@@ -20,4 +20,4 @@
 			$(GOCLEAN)
 			rm -rf $(OUTDIR)
     run: build	
-			$(OUTDIR)/$(BINARY_NAME)
+			$(OUTDIR)/$(BINARY_NAME) -port=$(port)
