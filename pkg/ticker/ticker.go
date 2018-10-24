@@ -54,10 +54,12 @@ func (t *ticker) Price(resp http.ResponseWriter, req *http.Request) {
 	currAggPrice, err := t.aggregator.CurrentAggregatedPrice()
 	if err != nil {
 		resp.WriteHeader(http.StatusInternalServerError)
+		resp.Header().Set("Content-Type", "text/plain")
 		resp.Write([]byte("1 minute moving average not yet available"))
 		return
 	}
 
 	resp.WriteHeader(http.StatusOK)
+	resp.Header().Set("Content-Type", "text/plain")
 	resp.Write([]byte(fmt.Sprintf("%.2f", currAggPrice)))
 }

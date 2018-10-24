@@ -32,6 +32,7 @@ func handleMethod(method string, handler func(http.ResponseWriter, *http.Request
 	return func(resp http.ResponseWriter, req *http.Request) {
 		if req.Method != method {
 			resp.WriteHeader(http.StatusBadRequest)
+			resp.Header().Set("Content-Type", "text/plain")
 			resp.Write([]byte("HTTP method not supported"))
 			return
 		}
