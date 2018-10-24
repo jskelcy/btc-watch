@@ -12,7 +12,7 @@ Go 1.11.1
 
 ### Building and running
 
-To build this project use the `build` make target to build the binary in `/out` directory. When using `build`, dependecies are also installed.
+To build this project use the `build` make target to build the binary in `/out` directory. When using `build`, there are no dependencies to install for this project.
 
 ```
 make build
