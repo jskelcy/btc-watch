@@ -18,13 +18,16 @@ func main() {
 	port := flag.String("port", defaultPort, "port to listen on")
 	flag.Parse()
 
+	// Set default by hand to play nice with make.
 	if *port == "" {
 		*port = defaultPort
 	}
 
 	aggregator := aggregation.NewAggregator(aggregation.Config{
-		AggWindow:        60,
-		CollectionWindow: 1,
+		// Hardcode to 60 seconds.
+		AggWindow: 60,
+		// Hardcode to 1 second.
+		CollectionInterval: 1,
 	})
 	fetcher := fetch.NewFetcher(fetch.Config{
 		EndpointBase:   "https://api.binance.com",

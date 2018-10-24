@@ -12,10 +12,10 @@ func TestAggregatorMovingAvg(t *testing.T) {
 	dps := &dataPoints{}
 	heap.Init(dps)
 	a := &aggregator{
-		aggWindow:        10,
-		collectionWindow: 1,
-		dps:              dps,
-		log:              log.New(os.Stderr, "", 1),
+		aggWindow:          10,
+		collectionInterval: 1,
+		dps:                dps,
+		log:                log.New(os.Stderr, "", 1),
 	}
 
 	wg := sync.WaitGroup{}

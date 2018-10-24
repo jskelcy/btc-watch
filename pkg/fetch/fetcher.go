@@ -62,7 +62,7 @@ func (f *fetcher) Start() <-chan float64 {
 			case <-t.C:
 				price, err := f.getPrice()
 				if err != nil {
-					log.Panicf("error getting price: %v", err.Error())
+					log.Printf("error getting price: %v", err.Error())
 				}
 				f.priceChan <- price
 			}
@@ -81,6 +81,10 @@ func (f *fetcher) getPrice() (float64, error) {
 	resp, err := f.client.Do(req)
 	if err != nil {
 		return 0, err
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		return 0, fmt.Errorf("recieved %d from btc backend", resp.StatusCode)
 	}
 
 	data, err := ioutil.ReadAll(resp.Body)

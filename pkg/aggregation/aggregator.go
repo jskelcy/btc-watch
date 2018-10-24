@@ -24,8 +24,8 @@ type Aggregator interface {
 
 // Config contains the configuration for an Aggregator.
 type Config struct {
-	AggWindow        int
-	CollectionWindow int
+	AggWindow          int
+	CollectionInterval int
 }
 
 // NewAggregator returns a the default aggregator from config.
@@ -35,10 +35,10 @@ func NewAggregator(cfg Config) Aggregator {
 	dps := &dataPoints{}
 	heap.Init(dps)
 	return &aggregator{
-		aggWindow:        cfg.AggWindow,
-		collectionWindow: cfg.CollectionWindow,
-		dps:              dps,
-		log:              log.New(os.Stderr, "", 1),
+		aggWindow:          cfg.AggWindow,
+		collectionInterval: cfg.CollectionInterval,
+		dps:                dps,
+		log:                log.New(os.Stderr, "", 1),
 	}
 }
 
@@ -50,7 +50,7 @@ type aggregator struct {
 	primed               bool
 	total                float64
 	aggWindow            int
-	collectionWindow     int
+	collectionInterval   int
 	lastMinMovingAverage float64
 	log                  *log.Logger
 }
@@ -70,7 +70,7 @@ func (a *aggregator) Ingest(value float64) {
 	a.Lock()
 	defer a.Unlock()
 	// if aggWindow is full pop off the oldest values
-	if len(*a.dps) == (a.aggWindow / a.collectionWindow) {
+	if len(*a.dps) == (a.aggWindow / a.collectionInterval) {
 		oldValue := heap.Pop(a.dps).(dataPoint)
 		a.total = a.total - oldValue.value
 	}
